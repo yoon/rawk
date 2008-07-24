@@ -213,7 +213,7 @@ class Rawk
     end
   end
   def print_stats
-    puts "Printing report for #{@db_time ? 'DB' : @render_time ? 'render' : 'total'} request times"
+    puts "Printing report for #{@db_time ? 'DB' : @render_time ? 'render' : 'total'} request times#{@from ? %Q( from #{@from.to_s}) : ""}#{@to ? %Q( through #{@to.to_s}) : ""}"
     puts "--------"
     puts HEADER
     puts @total_stat.to_s
