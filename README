@@ -1,0 +1,36 @@
+RAWK - Rail's Analyzer With Klass v1.2
+Created by Chris Hobbs of Spongecell, LLC
+This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. If process ids are present in the log files then requests are sorted by ActionController actions otherwise requests are grouped by url. By default total request times are used for comparison but database time or render time can be used by specifying the correct flag. The log file is read from standard input unless the -f flag is specified.
+
+The options are as follows:
+
+  -?  Display this help.
+
+  -d  Use DB times as data points. These times are found after 'DB:' in the log file. This overrides the default behavior of using the total request time.
+
+  -f <filename> Use the specified file instead of standard input.
+
+  -h  Display this help.
+
+  -r  Use Render times as data points. These times are found after 'Rendering:' in the log file. This overrides the default behavior of using the total request time.
+
+  -s <count> Display <count> results in each group of data.
+
+  -t  Test
+
+  -u  Group requests by url instead of the controller and action used. This is the default behavior if there is are no process ids in the log file.
+
+  -w <count> Display the top <count> worst requests.
+
+To include process ids in your log file, add this to environment.rb:
+
+  class Logger
+    def format_message(severity, timestamp, progname, msg)
+      "#{msg} (pid:#{$$})\n"
+    end
+  end
+
+This software is Beerware, if you like it, buy yourself a beer.
+
+Example usage:
+    ruby rawk.rb < production.log
