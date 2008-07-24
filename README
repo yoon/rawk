@@ -22,6 +22,10 @@ The options are as follows:
 
   -w <count> Display the top <count> worst requests.
 
+	-x <date> Date (inclusive) to start parsing in 'yyyy-mm-dd' format.
+
+	-y <date> Date (inclusive) to stop parsing in 'yyyy-mm-dd' format.
+
 To include process ids in your log file, add this to environment.rb:
 
   class Logger

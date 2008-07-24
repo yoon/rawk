@@ -2,6 +2,7 @@
 ##Rail's Analyzer With Klass
 #run the following to view help:
 #ruby rawk.rb -?
+require 'date'
 class Stat
   def initialize(key)
     @key=key
@@ -112,6 +113,8 @@ class Rawk
   "  -t  Test\n\n"+
   "  -u  Group requests by url instead of the controller and action used. This is the default behavior if there is are no process ids in the log file.\n\n"+
   "  -w <count> Display the top <count> worst requests.\n\n"+
+  "  -x <date> Date (inclusive) to start parsing in 'yyyy-mm-dd' format.\n\n"+
+	"  -y <date> Date (inclusive) to stop parsing in 'yyyy-mm-dd' format.\n\n"+
   "To include process ids in your log file, add this to environment.rb:\n\n"+
   "  class Logger\n"+
   "    def format_message(severity, timestamp, progname, msg)\n"+
@@ -164,6 +167,8 @@ class Rawk
     @worst_request_length=(@arg_hash["w"].to_i) if @arg_hash["w"]
     @sorted_limit = @arg_hash["s"].to_i if @arg_hash["s"]
     @input = File.new(@arg_hash["f"]) if @arg_hash["f"]
+    @from =(Date.parse(@arg_hash["x"])) if @arg_hash["x"]
+    @to =(Date.parse(@arg_hash["y"])) if @arg_hash["y"]
   end
   def build_stats
     @stat_hash = StatHash.new
@@ -174,6 +179,7 @@ class Rawk
       if $_.index("Processing ")==0
         action = $_.split[1]
         pid = $_[/\(pid\:\d+\)/]
+        date = Date.parse($_[/(?:19|20)[0-9]{2}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])/])
         last_actions[pid]=action if pid
         next
       end
@@ -195,12 +201,14 @@ class Rawk
       #if pids are not specified then we use the url for hashing
       #the below regexp turns "[http://spongecell.com/calendar/view/bob]" to "/calendar/view"
       key = ($_[/\[\S+\]/].gsub(/\S+\/\/(\w|\.)*/,''))[/\/\w*\/?\w*/] unless key
-      @stat_hash.add(key,time)
-      @total_stat.add(time)
-      if @worst_requests.length<@worst_request_length || @worst_requests[@worst_request_length-1][0]<time
-        @worst_requests << [time,$_]
-        @worst_requests.sort! {|a,b| (b[0] && a[0]) ? b[0]<=>a[0] : 0}
-        @worst_requests=@worst_requests[0,@worst_request_length]
+      if (@from.nil? or @from <= date) and (@to.nil? or @to >= date) # date criteria here
+        @stat_hash.add(key,time)
+        @total_stat.add(time)
+        if @worst_requests.length<@worst_request_length || @worst_requests[@worst_request_length-1][0]<time
+          @worst_requests << [time,$_]
+          @worst_requests.sort! {|a,b| (b[0] && a[0]) ? b[0]<=>a[0] : 0}
+          @worst_requests=@worst_requests[0,@worst_request_length]
+        end
       end
     end
   end
