@@ -180,6 +180,7 @@ class Rawk
         action = $_.split[1]
         pid = $_[/\(pid\:\d+\)/]
         date = Date.parse($_[/(?:19|20)[0-9]{2}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])/])
+        datetime = $_[/(?:19|20)[0-9]{2}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01]) (?:[0-1][0-9]|2[0-3]):(?:[0-5][0-9]|60):(?:[0-5][0-9]|60)/]
         last_actions[pid]=action if pid
         next
       end
@@ -205,7 +206,7 @@ class Rawk
         @stat_hash.add(key,time)
         @total_stat.add(time)
         if @worst_requests.length<@worst_request_length || @worst_requests[@worst_request_length-1][0]<time
-          @worst_requests << [time,$_]
+          @worst_requests << [time,%Q(#{datetime} #{$_})]
           @worst_requests.sort! {|a,b| (b[0] && a[0]) ? b[0]<=>a[0] : 0}
           @worst_requests=@worst_requests[0,@worst_request_length]
         end
