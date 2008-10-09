@@ -14,6 +14,7 @@ class Stat
     @values = []
   end
   def add(value)
+    @new_log_format = !value.is_a?(Float)
     value=1.0*value
     @count+=1
     @min = value unless @min
@@ -55,7 +56,11 @@ class Stat
     Math.sqrt((@sum_squares - (@sum*@sum/@count))/ (@count) )
   end
   def to_s
+    if @new_log_format
+      sprintf("%-45s %6d %7.2f %7d %7d %7d %7d %7d",key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
+    else
       sprintf("%-45s %6d %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f",key,count,sum,max,median,average,min,standard_deviation)
+    end
   end
   def self.test
     stat = Stat.new(30)
@@ -96,7 +101,8 @@ end
 
 class Rawk
   VERSION = 1.2
-  HEADER = "Request                                        Count     Sum     Max  Median     Avg     Min     Std"
+  HEADER                = "Request                                        Count     Sum     Max  Median     Avg     Min     Std"
+  HEADER_NEW_LOG_FORMAT = "Request                                        Count  Sum(s)     Max  Median     Avg     Min     Std"
   HELP = "\nRAWK - Rail's Analyzer With Klass v#{VERSION}\n"+
   "Created by Chris Hobbs of Spongecell, LLC\n"+
   "This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. "+
@@ -190,15 +196,36 @@ class Rawk
       pid = $_[/\(pid\:\d+\)/] if !@force_url_use
       key = last_actions[pid] if pid
       time = 0.0
-      if @db_time
-        time_string = $_[/DB: \d+\.\d+/]
-      elsif @render_time
-        time_string = $_[/Rendering: \d+\.\d+/]
-      else
-        time_string = $_[/Completed in \d+\.\d+/]
+      
+      # Old: Completed in 0.45141 (2 reqs/sec) | Rendering: 0.25965 (57%) | DB: 0.06300 (13%) | 200 OK [http://localhost/jury/proposal/312]
+      # New:  Completed in 100ms (View: 40, DB: 4) 
+      unless defined? @new_log_format
+        @new_log_format = $_ =~ /Completed in \d+ms/ 
       end
-      time_string = time_string[/\d+\.\d+/] if time_string
-      time = time_string.to_f if time_string
+      
+      if @new_log_format
+        if @db_time
+          time_string = $_[/DB: \d+/]
+        elsif @render_time
+          time_string = $_[/View: \d+/]
+        else
+          time_string = $_[/Completed in \d+ms/]
+        end
+        time_string = time_string[/\d+/] if time_string
+        time = time_string.to_i if time_string
+      else
+        if @db_time
+          time_string = $_[/DB: \d+\.\d+/]
+        elsif @render_time
+          time_string = $_[/Rendering: \d+\.\d+/]
+        else
+          time_string = $_[/Completed in \d+\.\d+/]
+        end
+        time_string = time_string[/\d+\.\d+/] if time_string
+        time = time_string.to_f if time_string
+      end
+      
+      
       #if pids are not specified then we use the url for hashing
       #the below regexp turns "[http://spongecell.com/calendar/view/bob]" to "/calendar/view"
       key = ($_[/\[\S+\]/].gsub(/\S+\/\/(\w|\.)*/,''))[/\/\w*\/?\w*/] unless key
@@ -214,29 +241,30 @@ class Rawk
     end
   end
   def print_stats
+    @header ||= @new_log_format ? HEADER_NEW_LOG_FORMAT : HEADER
     puts "Printing report for #{@db_time ? 'DB' : @render_time ? 'render' : 'total'} request times#{@from ? %Q( from #{@from.to_s}) : ""}#{@to ? %Q( through #{@to.to_s}) : ""}"
     puts "--------"
-    puts HEADER
+    puts @header
     puts @total_stat.to_s
     puts "--------"
     @stat_hash.print()
     puts "\nTop #{@sorted_limit} by Count"
-    puts HEADER
+    puts @header
     @stat_hash.print(:sort_by=>"count",:limit=>@sorted_limit,:ascending=>false)
     puts "\nTop #{@sorted_limit} by Sum of Time"
-    puts HEADER
+    puts @header
     @stat_hash.print(:sort_by=>"sum",:limit=>@sorted_limit,:ascending=>false)
     puts "\nTop #{@sorted_limit} Greatest Max"
-    puts HEADER
+    puts @header
     @stat_hash.print(:sort_by=>"max",:limit=>@sorted_limit,:ascending=>false)
     puts "\nTop #{@sorted_limit} Least Min"
-    puts HEADER
+    puts @header
     @stat_hash.print(:sort_by=>"min",:limit=>@sorted_limit)
     puts "\nTop #{@sorted_limit} Greatest Median"
-    puts HEADER
+    puts @header
     @stat_hash.print(:sort_by=>"median",:limit=>@sorted_limit,:ascending=>false)
     puts "\nTop #{@sorted_limit} Greatest Standard Deviation"
-    puts HEADER
+    puts @header
     @stat_hash.print(:sort_by=>"standard_deviation",:limit=>@sorted_limit,:ascending=>false)
     puts "\nWorst Requests"
     @worst_requests.each {|w| puts w[1].to_s}
