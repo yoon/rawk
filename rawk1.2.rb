@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 ##Rail's Analyzer With Klass
 #run the following to view help:
 #ruby rawk.rb -?
