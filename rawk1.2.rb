@@ -57,9 +57,9 @@ class Stat
   end
   def to_s
     if @new_log_format
-      sprintf("%-45s %6d %7.2f %7d %7d %7d %7d %7d",key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
+      sprintf("%-55s %6d %7.2f %7d %7d %7d %7d %7d",key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
     else
-      sprintf("%-45s %6d %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f",key,count,sum,max,median,average,min,standard_deviation)
+      sprintf("%-55s %6d %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f",key,count,sum,max,median,average,min,standard_deviation)
     end
   end
   def self.test
@@ -101,8 +101,8 @@ end
 
 class Rawk
   VERSION = 1.2
-  HEADER                = "Request                                        Count     Sum     Max  Median     Avg     Min     Std"
-  HEADER_NEW_LOG_FORMAT = "Request                                        Count  Sum(s)     Max  Median     Avg     Min     Std"
+  HEADER                = "Request                                                  Count     Sum     Max  Median     Avg     Min     Std"
+  HEADER_NEW_LOG_FORMAT = "Request                                                  Count  Sum(s)     Max  Median     Avg     Min     Std"
   HELP = "\nRAWK - Rail's Analyzer With Klass v#{VERSION}\n"+
   "Created by Chris Hobbs of Spongecell, LLC\n"+
   "This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. "+
