@@ -176,6 +176,11 @@ class Rawk
     @from =(Date.parse(@arg_hash["x"])) if @arg_hash["x"]
     @to =(Date.parse(@arg_hash["y"])) if @arg_hash["y"]
   end
+  
+  def is_id?(word)
+    word =~ /^((\d+)|([\dA-F\-]{36}))$/i
+  end
+  
   def build_stats
     @stat_hash = StatHash.new
     @total_stat = Stat.new("All Requests")
@@ -228,7 +233,26 @@ class Rawk
       
       #if pids are not specified then we use the url for hashing
       #the below regexp turns "[http://spongecell.com/calendar/view/bob]" to "/calendar/view"
-      key = ($_[/\[\S+\]/].gsub(/\S+\/\/(\w|\.)*/,''))[/\/\w*\/?\w*/] unless key
+      unless key
+
+        key = if @force_url_use
+          ($_[/\[\S+\]/].gsub(/\S+\/\/(\w|\.)*/,''))[/[^\?\]]*/]
+        else
+          data = $_[/\[\S+\]/].gsub(/\S+\/\/(\w|\.)*/,'')
+          s = data.gsub(/(\?.*)|\]$/,'').split("/")
+
+          keywords = s.inject([]) do |keywords, word|
+            if is_id?(word.to_s)
+              keywords << '{ID}'
+            elsif !word.to_s.empty?
+              keywords << word.to_s
+            end
+            keywords
+          end
+          k = "/#{keywords.join("/")}"
+        end
+      end
+      
       if (@from.nil? or @from <= date) and (@to.nil? or @to >= date) # date criteria here
         @stat_hash.add(key,time)
         @total_stat.add(time)
