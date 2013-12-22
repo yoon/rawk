@@ -1,0 +1,88 @@
+#From http://guides.rubyonrails.org/v4.0.0/debugging_rails_applications.html
+
+Processing PostsController#create (for 127.0.0.1 at 2008-09-08 11:52:54) [POST]
+  Session ID: BAh7BzoMY3NyZl9pZCIlMDY5MWU1M2I1ZDRjODBlMzkyMWI1OTg2NWQyNzViZjYiCmZsYXNoSUM6J0FjdGl
+vbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA=--b18cd92fba90eacf8137e5f6b3b06c4d724596a4
+  Parameters: {"commit"=>"Create", "post"=>{"title"=>"Debugging Rails",
+ "body"=>"I'm learning how to print in logs!!!", "published"=>"0"},
+ "authenticity_token"=>"2059c1286e93402e389127b1153204e0d1e275dd", "action"=>"create", "controller"=>"posts"}
+New post: {"updated_at"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!",
+ "published"=>false, "created_at"=>nil}
+Post should be valid: true
+  Post Create (0.000443)   INSERT INTO "posts" ("updated_at", "title", "body", "published",
+ "created_at") VALUES('2008-09-08 14:52:54', 'Debugging Rails',
+ 'I''m learning how to print in logs!!!', 'f', '2008-09-08 14:52:54')
+The post was saved and now the user is going to be redirected...
+Redirected to #<Post:0x20af760>
+Completed in 0.03224 (81 reqs/sec) | DB: 0.01044 (3%) | 302 Found [http://localhost/posts]
+
+
+Processing PostsController#create (for 127.0.0.1 at 2008-09-08 11:52:54) [POST]
+  Session ID: BAh7BzoMY3NyZl9pZCIlMDY5MWU1M2I1ZDRjODBlMzkyMWI1OTg2NWQyNzViZjYiCmZsYXNoSUM6J0FjdGl
+vbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA=--b18cd92fba90eacf8137e5f6b3b06c4d724596a4
+  Parameters: {"commit"=>"Create", "post"=>{"title"=>"Debugging Rails",
+ "body"=>"I'm learning how to print in logs!!!", "published"=>"0"},
+ "authenticity_token"=>"2059c1286e93402e389127b1153204e0d1e275dd", "action"=>"create", "controller"=>"posts"}
+New post: {"updated_at"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!",
+ "published"=>false, "created_at"=>nil}
+Post should be valid: true
+  Post Create (0.000443)   INSERT INTO "posts" ("updated_at", "title", "body", "published",
+ "created_at") VALUES('2008-09-08 14:52:54', 'Debugging Rails',
+ 'I''m learning how to print in logs!!!', 'f', '2008-09-08 14:52:54')
+The post was saved and now the user is going to be redirected...
+Redirected to #<Post:0x20af760>
+Completed in 0.02224 (81 reqs/sec) | DB: 0.00044 (3%) | 302 Found [http://localhost/posts]
+
+
+Processing PostsController#create (for 127.0.0.1 at 2008-09-08 11:52:54) [POST]
+  Session ID: BAh7BzoMY3NyZl9pZCIlMDY5MWU1M2I1ZDRjODBlMzkyMWI1OTg2NWQyNzViZjYiCmZsYXNoSUM6J0FjdGl
+vbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA=--b18cd92fba90eacf8137e5f6b3b06c4d724596a4
+  Parameters: {"commit"=>"Create", "post"=>{"title"=>"Debugging Rails",
+ "body"=>"I'm learning how to print in logs!!!", "published"=>"0"},
+ "authenticity_token"=>"2059c1286e93402e389127b1153204e0d1e275dd", "action"=>"create", "controller"=>"posts"}
+New post: {"updated_at"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!",
+ "published"=>false, "created_at"=>nil}
+Post should be valid: true
+  Post Create (0.000443)   INSERT INTO "posts" ("updated_at", "title", "body", "published",
+ "created_at") VALUES('2008-09-08 14:52:54', 'Debugging Rails',
+ 'I''m learning how to print in logs!!!', 'f', '2008-09-08 14:52:54')
+The post was saved and now the user is going to be redirected...
+Redirected to #<Post:0x20af760>
+Completed in 0.01224 (81 reqs/sec) | DB: 0.00044 (3%) | 302 Found [http://localhost/posts]
+
+
+
+Processing PostsController#create (for 127.0.0.1 at 2008-09-08 11:52:54) [POST]
+  Session ID: BAh7BzoMY3NyZl9pZCIlMDY5MWU1M2I1ZDRjODBlMzkyMWI1OTg2NWQyNzViZjYiCmZsYXNoSUM6J0FjdGl
+vbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA=--b18cd92fba90eacf8137e5f6b3b06c4d724596a4
+  Parameters: {"commit"=>"Create", "post"=>{"title"=>"Debugging Rails",
+ "body"=>"I'm learning how to print in logs!!!", "published"=>"0"},
+ "authenticity_token"=>"2059c1286e93402e389127b1153204e0d1e275dd", "action"=>"create", "controller"=>"posts"}
+New post: {"updated_at"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!",
+ "published"=>false, "created_at"=>nil}
+Post should be valid: true
+  Post Create (0.000443)   INSERT INTO "posts" ("updated_at", "title", "body", "published",
+ "created_at") VALUES('2008-09-08 14:52:54', 'Debugging Rails',
+ 'I''m learning how to print in logs!!!', 'f', '2008-09-08 14:52:54')
+The post was saved and now the user is going to be redirected...
+Redirected to #<Post:0x20af760>
+Completed in 0.01224 (81 reqs/sec) | DB: 0.00044 (3%) | 302 Found [http://localhost/posts]
+
+
+
+Processing PostsController#create (for 127.0.0.1 at 2008-09-08 11:52:54) [POST]
+  Session ID: BAh7BzoMY3NyZl9pZCIlMDY5MWU1M2I1ZDRjODBlMzkyMWI1OTg2NWQyNzViZjYiCmZsYXNoSUM6J0FjdGl
+vbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA=--b18cd92fba90eacf8137e5f6b3b06c4d724596a4
+  Parameters: {"commit"=>"Create", "post"=>{"title"=>"Debugging Rails",
+ "body"=>"I'm learning how to print in logs!!!", "published"=>"0"},
+ "authenticity_token"=>"2059c1286e93402e389127b1153204e0d1e275dd", "action"=>"create", "controller"=>"posts"}
+New post: {"updated_at"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!",
+ "published"=>false, "created_at"=>nil}
+Post should be valid: true
+  Post Create (0.000443)   INSERT INTO "posts" ("updated_at", "title", "body", "published",
+ "created_at") VALUES('2008-09-08 14:52:54', 'Debugging Rails',
+ 'I''m learning how to print in logs!!!', 'f', '2008-09-08 14:52:54')
+The post was saved and now the user is going to be redirected...
+Redirected to #<Post:0x20af760>
+Completed in 0.01224 (81 reqs/sec) | DB: 0.00044 (3%) | 302 Found [http://localhost/posts]
+

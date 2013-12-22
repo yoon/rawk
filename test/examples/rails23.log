@@ -1,0 +1,27 @@
+# From http://guides.rubyonrails.org/v2.3.11/performance_testing.html
+
+Processing ItemsController#index (for 127.0.0.1 at 2009-01-08 03:06:39) [GET]
+Rendering template within layouts/items
+Rendering items/index
+Completed in 25ms (View: 22, DB: 20) | 200 OK [http://0.0.0.0/items]
+
+Processing ItemsController#index (for 127.0.0.1 at 2009-01-08 03:06:39) [GET]
+Rendering template within layouts/items
+Rendering items/index
+Completed in 15ms (View: 12, DB: 10) | 200 OK [http://0.0.0.0/items]
+
+Processing ItemsController#index (for 127.0.0.1 at 2009-01-08 03:06:39) [GET]
+Rendering template within layouts/items
+Rendering items/index
+Completed in 5ms (View: 2, DB: 0) | 200 OK [http://0.0.0.0/items]
+
+Processing ItemsController#index (for 127.0.0.1 at 2009-01-08 03:06:39) [GET]
+Rendering template within layouts/items
+Rendering items/index
+Completed in 5ms (View: 2, DB: 0) | 200 OK [http://0.0.0.0/items]
+
+Processing ItemsController#index (for 127.0.0.1 at 2009-01-08 03:06:39) [GET]
+Rendering template within layouts/items
+Rendering items/index
+Completed in 5ms (View: 2, DB: 0) | 200 OK [http://0.0.0.0/items]
+
