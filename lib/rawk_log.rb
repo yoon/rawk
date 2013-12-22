@@ -1,7 +1,15 @@
 require "rawk_log/version"
-require "rawk_log/patch_logger"
-require "rawk_log/patch_activesupport_bufferedlogger"
+
+# Don't load automatically
+#require "rawk_log/command"
+
+if defined?(ActiveSupport::BufferedLogger)
+  require "rawk_log/patch_logger"
+end
+if defined?(ActiveSupport::BufferedLogger)
+  require "rawk_log/patch_activesupport_bufferedlogger"
+end
 
 module RawkLog
-  # Your code goes here...
+  # Everything loaded in requires above
 end
