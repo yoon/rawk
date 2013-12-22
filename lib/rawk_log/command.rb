@@ -1,11 +1,12 @@
 require 'date'
 require 'rawk_log/stat'
 require 'rawk_log/stat_hash'
+require "rawk_log/version"
 
 module RawkLog
   class Command
-    HELP = "\nRAWK - Rail's Analyzer With Klass\n"+
-    "Created by Chris Hobbs of Spongecell, LLC\n"+
+    HELP = "\nRAWK_LOG - Rail's Analyzer With Klass for log files v#{VERSION}\n"+
+    "Created by Chris Hobbs of Spongecell, LLC, updated by Ian Heggie and others\n"+
     "This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. "+
     "If process ids are present in the log files then requests are sorted by ActionController actions otherwise requests are grouped by url. "+
     "By default total request times are used for comparison but database time or render time can be used by specifying the correct flag. "+
