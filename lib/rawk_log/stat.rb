@@ -4,8 +4,8 @@ module RawkLog
 
     DEFAULT_LABEL_SIZE = 30
 
-    HEADER                = "Count     Sum     Max  Median     Avg     Min     Std"
-    HEADER_NEW_LOG_FORMAT = "Count  Sum(s)     Max  Median     Avg     Min     Std"
+    HEADER                = "Count       Sum     Max  Median     Avg     Min     Std"
+    HEADER_NEW_LOG_FORMAT = "Count    Sum(s)     Max  Median     Avg     Min     Std"
 
     def initialize(key)
       @key=key
@@ -76,9 +76,9 @@ module RawkLog
     def to_s(label_size = DEFAULT_LABEL_SIZE)
       if count > 0
         if @new_log_format
-          sprintf("%*s %6d %7.2f %7d %7d %7d %7d %7d",-label_size, key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
+          sprintf("%*s %6d %9.2f %7d %7d %7d %7d %7d",-label_size, key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
         else
-          sprintf("%*s %6d %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f",-label_size,key,count,sum,max,median,average,min,standard_deviation)
+          sprintf("%*s %6d %9.2f %7.2f %7.2f %7.2f %7.2f %7.2f",-label_size,key,count,sum,max,median,average,min,standard_deviation)
         end
       else
           sprintf("%*s %6d",-label_size,key,0)
