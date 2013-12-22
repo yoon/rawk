@@ -3,7 +3,9 @@ require 'test/unit'
 class SelfTest < Test::Unit::TestCase
 
   def setup
-    @output = `ruby bin/rawk_log -t`
+    bin = File.join(File.dirname(__FILE__), '..', 'bin')
+    examples = File.join(File.dirname(__FILE__), 'examples')
+    @output = `ruby #{bin}/rawk_log -t`
     @exit_status = $?.to_i
   end
 

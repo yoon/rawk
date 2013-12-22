@@ -3,7 +3,9 @@ require 'test/unit'
 class EmptyTest < Test::Unit::TestCase
 
   def setup
-    @output = `ruby bin/rawk_log -f test/examples/empty.log`
+    bin = File.join(File.dirname(__FILE__), '..', 'bin')
+    examples = File.join(File.dirname(__FILE__), 'examples')
+    @output = `ruby #{bin}/rawk_log -f #{examples}/empty.log`
     @exit_status = $?.to_i
   end
 

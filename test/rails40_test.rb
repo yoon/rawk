@@ -3,7 +3,9 @@ require 'test/unit'
 class Rails40Test < Test::Unit::TestCase
 
   def setup
-    @output = `ruby bin/rawk_log -f test/examples/rails40.log`
+    bin = File.join(File.dirname(__FILE__), '..', 'bin')
+    examples = File.join(File.dirname(__FILE__), 'examples')
+    @output = `ruby #{bin}/rawk_log -f #{examples}/rails40.log`
     @exit_status = $?.to_i
   end
 

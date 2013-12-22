@@ -3,7 +3,9 @@ require 'test/unit'
 class Rails23Test < Test::Unit::TestCase
 
   def setup
-    @output = `ruby bin/rawk_log -f test/examples/rails23.log`
+    bin = File.join(File.dirname(__FILE__), '..', 'bin')
+    examples = File.join(File.dirname(__FILE__), 'examples')
+    @output = `ruby #{bin}/rawk_log -f #{examples}/rails23.log`
     @exit_status = $?.to_i
   end
 
