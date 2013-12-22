@@ -1,0 +1,3 @@
+This software is Beerware, if you like it, buy yourself a beer.
+
+Created by Chris Hobbs of Spongecell, LLC - http://ckhsponge.wordpress.com/2006/10/11/ruby-on-rails-log-analyzer-rawk/

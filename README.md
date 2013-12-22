@@ -1,8 +1,32 @@
-RAWK - Rail's Analyzer With Klass v1.2
-Created by Chris Hobbs of Spongecell, LLC
+# RawkLog
+
+RawkLog - RAWK - Rail's Analyzer With Klass updated and packaged a Gem
+
 This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. If process ids are present in the log files then requests are sorted by ActionController actions otherwise requests are grouped by url. By default total request times are used for comparison but database time or render time can be used by specifying the correct flag. The log file is read from standard input unless the -f flag is specified.
 
-The options are as follows:
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'rawk_log'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install rawk_log
+
+This will 
+
+1. add the rawk_log command
+2. adjust Logger and ActiveSupport::BufferedLogger to append " (pid:#{$$})" to log lines so urls can be related to their controller and method (if added to the Gemfile)
+
+## Usage
+
+rawk_log usage:
 
   -?  Display this help.
 
@@ -26,15 +50,24 @@ The options are as follows:
 
 	-y <date> Date (inclusive) to stop parsing in 'yyyy-mm-dd' format.
 
-To include process ids in your log file, add this to environment.rb:
-
-  class Logger
-    def format_message(severity, timestamp, progname, msg)
-      "#{msg} (pid:#{$$})\n"
-    end
-  end
-
-This software is Beerware, if you like it, buy yourself a beer.
-
 Example usage:
-    ruby rawk.rb < production.log
+    rawk_log log/production.log
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+## License
+
+This software is Beerware, if you like it, buy yourself a beer
+or something nicer ;)
+
+## Thanks go to
+
+* Created by Chris Hobbs of Spongecell, LLC - http://ckhsponge.wordpress.com/2006/10/11/ruby-on-rails-log-analyzer-rawk/
+* Various contributers on github
+* Railscast for bringing it to my attention: http://railscasts.com/episodes/97-analyzing-the-production-log

@@ -100,7 +100,7 @@ class StatHash
 end
 
 class Rawk
-  VERSION = 1.2
+  VERSION = 2.0
   HEADER                = "Request                                                  Count     Sum     Max  Median     Avg     Min     Std"
   HEADER_NEW_LOG_FORMAT = "Request                                                  Count  Sum(s)     Max  Median     Avg     Min     Std"
   HELP = "\nRAWK - Rail's Analyzer With Klass v#{VERSION}\n"+
@@ -121,17 +121,12 @@ class Rawk
   "  -w <count> Display the top <count> worst requests.\n\n"+
   "  -x <date> Date (inclusive) to start parsing in 'yyyy-mm-dd' format.\n\n"+
 	"  -y <date> Date (inclusive) to stop parsing in 'yyyy-mm-dd' format.\n\n"+
-  "To include process ids in your log file, add this to environment.rb:\n\n"+
-  "  class Logger\n"+
-  "    def format_message(severity, timestamp, progname, msg)\n"+
-  "      \"\#{msg} (pid:\#{$$})\\n\"\n"+
-  "    end\n"+
-  "  end\n"+
-  "\n"+
-  "This software is Beerware, if you like it, buy yourself a beer.\n"+
+  "To include process ids in your log file, add this to application's Gemfile:\n\n"+
+  "    gem 'rawk_log'\n\n"+
+  "This software is Beerware, if you like it, buy yourself a beer or something nicer ;)\n"+
   "\n"+
   "Example usage:\n"+
-  "    ruby rawk.rb < production.log\n"
+  "    rawk_log log/production.log\n"
   
   def initialize
     @start_time = Time.now
