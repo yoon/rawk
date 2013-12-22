@@ -17,6 +17,10 @@ class EmptyTest < Test::Unit::TestCase
     assert_match(/^All Requests +0$/, @output)
   end
 
+  def test_no_top_lists
+    assert_no_match(/^Top /, @output)
+  end
+
   def test_exit_status
     assert_equal(0, @exit_status)
   end

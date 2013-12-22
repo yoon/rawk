@@ -13,6 +13,10 @@ class UnknownTest < Test::Unit::TestCase
     assert_match(/^Request +Count +Sum +Max +Median +Avg +Min +Std$/, @output)
   end
 
+  def test_no_top_lists
+    assert_no_match(/^Top /, @output)
+  end
+
   def test_lists_zero_entries
     assert_match(/^All Requests +0/, @output)
   end

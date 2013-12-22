@@ -174,24 +174,30 @@ module RawkLog
       puts "=" * title.size
       puts ""
       label_size = @stat_hash.print()
-      puts "-" * label_size
+      if @stat_hash.empty?
+        puts @total_stat.header(label_size)
+      else
+        puts "-" * label_size
+      end
       puts @total_stat.to_s(label_size)
-      puts "\n\nTop #{@sorted_limit} by Count"
-      @stat_hash.print(:sort_by=>"count",:limit=>@sorted_limit,:ascending=>false)
-      puts "\n\nTop #{@sorted_limit} by Sum of Time"
-      @stat_hash.print(:sort_by=>"sum",:limit=>@sorted_limit,:ascending=>false)
-      puts "\n\nTop #{@sorted_limit} Greatest Max"
-      @stat_hash.print(:sort_by=>"max",:limit=>@sorted_limit,:ascending=>false)
-      puts "\n\nTop #{@sorted_limit} Greatest Median"
-      @stat_hash.print(:sort_by=>"median",:limit=>@sorted_limit,:ascending=>false)
-      puts "\n\nTop #{@sorted_limit} Greatest Avg"
-      @stat_hash.print(:sort_by=>"average",:limit=>@sorted_limit,:ascending=>false)
-      puts "\n\nTop #{@sorted_limit} Least Min"
-      @stat_hash.print(:sort_by=>"min",:limit=>@sorted_limit)
-      puts "\n\nTop #{@sorted_limit} Greatest Standard Deviation"
-      @stat_hash.print(:sort_by=>"standard_deviation",:limit=>@sorted_limit,:ascending=>false)
-      puts "\n\nTop #{@worst_request_length} Worst Requests"
-      @worst_requests.each {|w| puts w[1].to_s}
+      if not @stat_hash.empty?
+        puts "\n\nTop #{@sorted_limit} by Count"
+        @stat_hash.print(:sort_by=>"count",:limit=>@sorted_limit,:ascending=>false)
+        puts "\n\nTop #{@sorted_limit} by Sum of Time"
+        @stat_hash.print(:sort_by=>"sum",:limit=>@sorted_limit,:ascending=>false)
+        puts "\n\nTop #{@sorted_limit} Greatest Max"
+        @stat_hash.print(:sort_by=>"max",:limit=>@sorted_limit,:ascending=>false)
+        puts "\n\nTop #{@sorted_limit} Greatest Median"
+        @stat_hash.print(:sort_by=>"median",:limit=>@sorted_limit,:ascending=>false)
+        puts "\n\nTop #{@sorted_limit} Greatest Avg"
+        @stat_hash.print(:sort_by=>"average",:limit=>@sorted_limit,:ascending=>false)
+        puts "\n\nTop #{@sorted_limit} Least Min"
+        @stat_hash.print(:sort_by=>"min",:limit=>@sorted_limit)
+        puts "\n\nTop #{@sorted_limit} Greatest Standard Deviation"
+        @stat_hash.print(:sort_by=>"standard_deviation",:limit=>@sorted_limit,:ascending=>false)
+        puts "\n\nTop #{@worst_request_length} Worst Requests"
+        @worst_requests.each {|w| puts w[1].to_s}
+      end
       puts "\n\nCompleted report in %1.2f minutes" % ((Time.now.to_i-@start_time.to_i)/60.0)
     end
   end

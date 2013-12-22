@@ -6,6 +6,10 @@ module RawkLog
       @stats = Hash.new
     end
 
+    def empty?
+      @stats.empty?
+    end
+
     def add(key,time)
       stat = @stats[key] || (@stats[key] = RawkLog::Stat.new(key))
       stat.add(time)

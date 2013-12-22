@@ -13,6 +13,10 @@ class Rails23Test < Test::Unit::TestCase
     assert_no_match(/ItemsController/, @output)
   end
 
+  def test_has_top_lists
+    assert_match(/^Top /, @output)
+  end
+
   def test_outputs_header
     assert_match(/^Request +Count +Sum\(s\) +Max +Median +Avg +Min +Std$/, @output)
   end

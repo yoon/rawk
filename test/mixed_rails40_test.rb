@@ -17,6 +17,10 @@ class MixedRails40Test < Test::Unit::TestCase
     assert_match(/^Request +Count +Sum +Max +Median +Avg +Min +Std$/, @output)
   end
 
+  def test_has_top_lists
+    assert_match(/^Top /, @output)
+  end
+
   def test_finds_entries
     assert_match(/^ItemsController#index/, @output)
     assert_match(/^ItemsController#index\s+5\s/, @output)
