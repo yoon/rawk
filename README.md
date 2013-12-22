@@ -4,6 +4,7 @@ RawkLog - RAWK - Rail's Analyzer With Klass updated and packaged a Gem
 
 This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. If process ids are present in the log files then requests are sorted by ActionController actions otherwise requests are grouped by url. By default total request times are used for comparison but database time or render time can be used by specifying the correct flag. The log file is read from standard input unless the -f flag is specified.
 
+[![Travis CI tests](https://travis-ci.org/ianheggie/rawk_log.png)](https://travis-ci.org/ianheggie/rawk_log)
 
 ## Installation
 
