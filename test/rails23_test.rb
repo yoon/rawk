@@ -18,7 +18,7 @@ class Rails23Test < Test::Unit::TestCase
   end
 
   def test_outputs_header
-    assert_match(/^Request +Count +Sum\(s\) +Max +Median +Avg +Min +Std$/, @output)
+    assert_match(/^Request +Count +Sum\(secs\) +Max +Median +Avg +Min +Std$/, @output)
   end
 
   def test_finds_entries
