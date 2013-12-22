@@ -62,16 +62,20 @@ class Stat
       sprintf("%-55s %6d %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f",key,count,sum,max,median,average,min,standard_deviation)
     end
   end
+
   def self.test
     stat = Stat.new(30)
     stat.add(5)
     stat.add(6)
     stat.add(8)
     stat.add(9)
-    puts 7==stat.median ? "median Success" : "median Failure"
-    puts 7==stat.average ? "average Success" : "average Failure"
-    puts 158==(stat.standard_deviation*100).round ? "std Success" : "std Failure"
+    messages = [ 7==stat.median ? "median Success" : "median Failure" ]
+    messages <<= (7==stat.average ? "average Success" : "average Failure")
+    messages <<= (158==(stat.standard_deviation*100).round ? "std Success" : "std Failure")
+    puts messages.join("\n")
+    exit (messages.select{|m| m =~ /Failure/}.size)
   end
+
 end
 class StatHash
   def initialize
