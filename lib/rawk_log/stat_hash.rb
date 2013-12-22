@@ -5,12 +5,15 @@ module RawkLog
     def initialize
       @stats = Hash.new
     end
+
     def add(key,time)
       stat = @stats[key] || (@stats[key] = RawkLog::Stat.new(key))
       stat.add(time)
     end
+
     def print(args={:sort_by=>'key',:ascending=>true,:limit=>nil})
       values = @stats.values
+      return 20 if values.empty?
       order = (args[:ascending] || args[:ascending].nil?) ? 1 : -1
       values.sort! {|a,b| 
         as = a.send(args[:sort_by])
@@ -19,11 +22,15 @@ module RawkLog
       }
       #values.sort! {|a,b| a.key<=>b.key}
       limit = args[:limit]
-      for stat in values
-        break if limit && limit<=0
-        puts stat.to_s
-        limit-=1 if limit
+      if limit
+        values = values[0,limit]
       end
+      @label_size = values.collect{|v| v.key.size }.max
+      puts values[0].header(@label_size)
+      for stat in values
+        puts stat.to_s(@label_size)
+      end
+      @label_size
     end
   end
 end

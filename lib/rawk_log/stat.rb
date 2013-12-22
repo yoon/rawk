@@ -1,6 +1,10 @@
 module RawkLog
 
   class Stat
+
+    HEADER                = "Count     Sum     Max  Median     Avg     Min     Std"
+    HEADER_NEW_LOG_FORMAT = "Count  Sum(s)     Max  Median     Avg     Min     Std"
+
     def initialize(key)
       @key=key
       @min = nil
@@ -10,6 +14,7 @@ module RawkLog
       @count = 0
       @values = []
     end
+
     def add(value)
       @new_log_format = !value.is_a?(Float)
       value=1.0*value
@@ -22,24 +27,36 @@ module RawkLog
       @sum_squares += value*value
       @values << value
     end
+
+    def header(label_size = 55)
+      header = @new_log_format ?  HEADER_NEW_LOG_FORMAT : HEADER
+      sprintf "%*s  %s" % [-label_size, "Request", header]
+    end
+
     def key
       @key
     end
+
     def count
       @count
     end
+
     def sum
       @sum
     end
+
     def min
       @min
     end
+
     def max
       @max
     end
+
     def average
       @count > 0 ? @sum/@count : @sum
     end
+
     def median
       return nil unless @values
       l = @values.length
@@ -48,19 +65,21 @@ module RawkLog
       return (@values[l/2-1]+@values[l/2])/2 if l%2==0
       @values[(l+1)/2-1]
     end
+
     def standard_deviation
       return 0 if @count<=1
       Math.sqrt((@sum_squares - (@sum*@sum/@count))/ (@count) )
     end
-    def to_s
+
+    def to_s(label_size = 55)
       if count > 0
         if @new_log_format
-          sprintf("%-55s %6d %7.2f %7d %7d %7d %7d %7d",key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
+          sprintf("%*s %6d %7.2f %7d %7d %7d %7d %7d",-label_size, key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
         else
-          sprintf("%-55s %6d %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f",key,count,sum,max,median,average,min,standard_deviation)
+          sprintf("%*s %6d %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f",-label_size,key,count,sum,max,median,average,min,standard_deviation)
         end
       else
-          sprintf("%-55s %6d",key,0)
+          sprintf("%*s %6d",-label_size,key,0)
       end
     end
 
@@ -70,11 +89,11 @@ module RawkLog
       stat.add(6)
       stat.add(8)
       stat.add(9)
-      messages = [ 7==stat.median ? "median Success" : "median Failure" ]
-      messages <<= (7==stat.average ? "average Success" : "average Failure")
-      messages <<= (158==(stat.standard_deviation*100).round ? "std Success" : "std Failure")
-      puts messages.join("\n")
-      exit (messages.select{|m| m =~ /Failure/}.size)
+      results = [ 7==stat.median ? "median Success" : "median Failure" ]
+      results <<= (7==stat.average ? "average Success" : "average Failure")
+      results <<= (158==(stat.standard_deviation*100).round ? "std Success" : "std Failure")
+      puts results.join("\n")
+      exit (results.select{|m| m =~ /Failure/}.size)
     end
 
   end

@@ -4,8 +4,6 @@ require 'rawk_log/stat_hash'
 
 module RawkLog
   class Command
-    HEADER                = "Request                                                  Count     Sum     Max  Median     Avg     Min     Std"
-    HEADER_NEW_LOG_FORMAT = "Request                                                  Count  Sum(s)     Max  Median     Avg     Min     Std"
     HELP = "\nRAWK - Rail's Analyzer With Klass\n"+
     "Created by Chris Hobbs of Spongecell, LLC\n"+
     "This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. "+
@@ -142,9 +140,9 @@ module RawkLog
         unless key
 
           key = if @force_url_use
-            ($_[/\[\S+\]/].gsub(/\S+\/\/(\w|\.)*/,''))[/[^\?\]]*/]
+            ($_[/\[[^\]]+\]/].gsub(/\S+\/\/(\w|\.)*/,''))[/[^\?\]]*/]
           else
-            data = $_[/\[\S+\]/].gsub(/\S+\/\/(\w|\.)*/,'')
+            data = $_[/\[[^\]]+\]/].gsub(/\S+\/\/(\w|\.)*/,'')
             s = data.gsub(/(\?.*)|\]$/,'').split("/")
 
             keywords = s.inject([]) do |keywords, word|
@@ -158,7 +156,7 @@ module RawkLog
             k = "/#{keywords.join("/")}"
           end
         end
-        
+
         if (@from.nil? or @from <= date) and (@to.nil? or @to >= date) # date criteria here
           @stat_hash.add(key,time)
           @total_stat.add(time)
@@ -171,34 +169,30 @@ module RawkLog
       end
     end
     def print_stats
-      @header ||= @new_log_format ? HEADER_NEW_LOG_FORMAT : HEADER
-      puts "Printing report for #{@db_time ? 'DB' : @render_time ? 'render' : 'total'} request times#{@from ? %Q( from #{@from.to_s}) : ""}#{@to ? %Q( through #{@to.to_s}) : ""}"
-      puts "--------"
-      puts @header
-      puts @total_stat.to_s
-      puts "--------"
-      @stat_hash.print()
-      puts "\nTop #{@sorted_limit} by Count"
-      puts @header
+      title = "Log Analysis of #{@db_time ? 'DB' : @render_time ? 'render' : 'total'} request times#{@from ? %Q( from #{@from.to_s}) : ""}#{@to ? %Q( through #{@to.to_s}) : ""}"
+      puts title
+      puts "=" * title.size
+      puts ""
+      label_size = @stat_hash.print()
+      puts "-" * label_size
+      puts @total_stat.to_s(label_size)
+      puts "\n\nTop #{@sorted_limit} by Count"
       @stat_hash.print(:sort_by=>"count",:limit=>@sorted_limit,:ascending=>false)
-      puts "\nTop #{@sorted_limit} by Sum of Time"
-      puts @header
+      puts "\n\nTop #{@sorted_limit} by Sum of Time"
       @stat_hash.print(:sort_by=>"sum",:limit=>@sorted_limit,:ascending=>false)
-      puts "\nTop #{@sorted_limit} Greatest Max"
-      puts @header
+      puts "\n\nTop #{@sorted_limit} Greatest Max"
       @stat_hash.print(:sort_by=>"max",:limit=>@sorted_limit,:ascending=>false)
-      puts "\nTop #{@sorted_limit} Least Min"
-      puts @header
-      @stat_hash.print(:sort_by=>"min",:limit=>@sorted_limit)
-      puts "\nTop #{@sorted_limit} Greatest Median"
-      puts @header
+      puts "\n\nTop #{@sorted_limit} Greatest Median"
       @stat_hash.print(:sort_by=>"median",:limit=>@sorted_limit,:ascending=>false)
-      puts "\nTop #{@sorted_limit} Greatest Standard Deviation"
-      puts @header
+      puts "\n\nTop #{@sorted_limit} Greatest Avg"
+      @stat_hash.print(:sort_by=>"average",:limit=>@sorted_limit,:ascending=>false)
+      puts "\n\nTop #{@sorted_limit} Least Min"
+      @stat_hash.print(:sort_by=>"min",:limit=>@sorted_limit)
+      puts "\n\nTop #{@sorted_limit} Greatest Standard Deviation"
       @stat_hash.print(:sort_by=>"standard_deviation",:limit=>@sorted_limit,:ascending=>false)
-      puts "\nWorst Requests"
+      puts "\n\nTop #{@worst_request_length} Worst Requests"
       @worst_requests.each {|w| puts w[1].to_s}
-      puts "\nCompleted report in %1.2f minutes" % ((Time.now.to_i-@start_time.to_i)/60.0)
+      puts "\n\nCompleted report in %1.2f minutes" % ((Time.now.to_i-@start_time.to_i)/60.0)
     end
   end
 end
