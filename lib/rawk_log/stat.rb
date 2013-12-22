@@ -2,6 +2,8 @@ module RawkLog
 
   class Stat
 
+    DEFAULT_LABEL_SIZE = 30
+
     HEADER                = "Count     Sum     Max  Median     Avg     Min     Std"
     HEADER_NEW_LOG_FORMAT = "Count  Sum(s)     Max  Median     Avg     Min     Std"
 
@@ -28,7 +30,7 @@ module RawkLog
       @values << value
     end
 
-    def header(label_size = 55)
+    def header(label_size = DEFAULT_LABEL_SIZE)
       header = @new_log_format ?  HEADER_NEW_LOG_FORMAT : HEADER
       sprintf "%*s  %s" % [-label_size, "Request", header]
     end
@@ -71,7 +73,7 @@ module RawkLog
       Math.sqrt((@sum_squares - (@sum*@sum/@count))/ (@count) )
     end
 
-    def to_s(label_size = 55)
+    def to_s(label_size = DEFAULT_LABEL_SIZE)
       if count > 0
         if @new_log_format
           sprintf("%*s %6d %7.2f %7d %7d %7d %7d %7d",-label_size, key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
