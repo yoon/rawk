@@ -32,6 +32,7 @@ module RawkLog
     def initialize(args)
       @start_time = Time.now
       build_arg_hash(args)
+      @new_log_format = nil
     end
 
     def run
@@ -112,11 +113,21 @@ module RawkLog
         
         # Old: Completed in 0.45141 (2 reqs/sec) | Rendering: 0.25965 (57%) | DB: 0.06300 (13%) | 200 OK [http://localhost/jury/proposal/312]
         # New:  Completed in 100ms (View: 40, DB: 4) 
-        unless defined? @new_log_format
-          @new_log_format = $_ =~ /Completed in \d+ms/ 
+        if @new_log_format.nil?
+          @new_log_format = ! ($_ =~ /Completed in \d+ms/)
         end
         
         if @new_log_format
+          if @db_time
+            time_string = $_[/DB: \d+\.\d+/]
+          elsif @render_time
+            time_string = $_[/(View|Rendering): \d+\.\d+/]
+          else
+            time_string = $_[/Completed in \d+\.\d+/]
+          end
+          time_string = time_string[/\d+\.\d+/] if time_string
+          time = time_string.to_f if time_string
+        else
           if @db_time
             time_string = $_[/DB: \d+/]
           elsif @render_time
@@ -126,43 +137,36 @@ module RawkLog
           end
           time_string = time_string[/\d+/] if time_string
           time = time_string.to_i if time_string
-        else
-          if @db_time
-            time_string = $_[/DB: \d+\.\d+/]
-          elsif @render_time
-            time_string = $_[/Rendering: \d+\.\d+/]
-          else
-            time_string = $_[/Completed in \d+\.\d+/]
-          end
-          time_string = time_string[/\d+\.\d+/] if time_string
-          time = time_string.to_f if time_string
         end
+
         
         
         #if pids are not specified then we use the url for hashing
         #the below regexp turns "[http://spongecell.com/calendar/view/bob]" to "/calendar/view"
         unless key
+          uri = $_[/\[[^\]]+\]/]
+          if uri and uri != ''
+            key = if @force_url_use
+              (uri.gsub(/\S+\/\/(\w|\.)*/,''))[/[^\?\]]*/]
+            else
+              data = uri.gsub(/\S+\/\/(\w|\.)*/,'')
+              s = data.gsub(/(\?.*)|\]$/,'').split("/")
 
-          key = if @force_url_use
-            ($_[/\[[^\]]+\]/].gsub(/\S+\/\/(\w|\.)*/,''))[/[^\?\]]*/]
-          else
-            data = $_[/\[[^\]]+\]/].gsub(/\S+\/\/(\w|\.)*/,'')
-            s = data.gsub(/(\?.*)|\]$/,'').split("/")
-
-            keywords = s.inject([]) do |keywords, word|
-              if is_id?(word.to_s)
-                keywords << '{ID}'
-              elsif !word.to_s.empty?
-                keywords << word.to_s
+              keywords = s.inject([]) do |keywords, word|
+                if is_id?(word.to_s)
+                  keywords << '{ID}'
+                elsif !word.to_s.empty?
+                  keywords << word.to_s
+                end
+                keywords
               end
-              keywords
+              keywords[-1] = '{filename}' if ! keywords.empty? and is_filename?(keywords[-1])
+              k = "/#{keywords.join("/")}"
             end
-            keywords[-1] = '{filename}' if ! keywords.empty? and is_filename?(keywords[-1])
-            k = "/#{keywords.join("/")}"
           end
         end
 
-        if (@from.nil? or @from <= date) and (@to.nil? or @to >= date) # date criteria here
+        if key and (@from.nil? or @from <= date) and (@to.nil? or @to >= date) # date criteria here
           @stat_hash.add(key,time)
           @total_stat.add(time)
           if @worst_requests.length<@worst_request_length || @worst_requests[@worst_request_length-1][0]<time
@@ -177,7 +181,7 @@ module RawkLog
       title = "Log Analysis of #{@db_time ? 'DB' : @render_time ? 'render' : 'total'} request times#{@from ? %Q( from #{@from.to_s}) : ""}#{@to ? %Q( through #{@to.to_s}) : ""}"
       puts title
       puts "=" * title.size
-      puts ""
+      puts "(Times are in milliseconds except where indicated)\n"
       label_size = @stat_hash.print()
       if @stat_hash.empty?
         puts @total_stat.header(label_size)

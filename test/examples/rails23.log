@@ -28,3 +28,4 @@ Completed in 5ms (View: 2, DB: 0) | 200 OK [http://0.0.0.0/items]
 Processing DocumentController#download (for 12.13.14.15 at 2012-12-13 11:49:03) [GET]
 Completed in 936ms (View: 1, DB: 31) | 200 OK [http://www.example.com/document/download/96164/Form 6 - Occupancy permit-2034-20156 - Unit 1.docx]
 
+Completed in 0.03599 (27 reqs/sec) | Rendering: 0.02954 (82%) | DB: 0.00196 (5%) | 200 OK [http://www.exampl
