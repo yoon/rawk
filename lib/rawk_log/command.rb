@@ -79,7 +79,11 @@ module RawkLog
     end
     
     def is_id?(word)
-      word =~ /^((\d+)|([\dA-F\-]{36}))$/i
+      word =~ /^((\d+(-.*)?)|([\dA-F\-]{36}))$/i
+    end
+    
+    def is_filename?(word)
+      word =~ /\.[a-z]{1,5}\d?$/i
     end
     
     def build_stats
@@ -153,6 +157,7 @@ module RawkLog
               end
               keywords
             end
+            keywords[-1] = '{filename}' if ! keywords.empty? and is_filename?(keywords[-1])
             k = "/#{keywords.join("/")}"
           end
         end
