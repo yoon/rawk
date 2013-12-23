@@ -23,8 +23,10 @@ module RawkLog
     "  -w <count> Display the top <count> worst requests.\n\n"+
     "  -x <date> Date (inclusive) to start parsing in 'yyyy-mm-dd' format.\n\n"+
           "  -y <date> Date (inclusive) to stop parsing in 'yyyy-mm-dd' format.\n\n"+
-    "To include process ids in your log file, add this to application's Gemfile:\n\n"+
+    "To install the rawk_log command, add this to application's Gemfile and run bundle:\n\n"+
     "    gem 'rawk_log'\n\n"+
+    "To enable reporting by controler#action add the following to the end of config/environment.rb:\n\n"+
+    "    require 'rawk_log/patch_logger'\n\n"+
     "This software is Beerware, if you like it, buy yourself a beer or something nicer ;)\n"+
     "\n"+
     "Example usage:\n"+

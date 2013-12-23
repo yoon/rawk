@@ -20,10 +20,13 @@ Or install it yourself as:
 
     $ gem install rawk_log
 
-This will 
+### Patching logger
 
-1. add the rawk_log command
-2. adjust Logger and ActiveSupport::BufferedLogger to append " (pid:#{$$})" to log lines so urls can be related to their controller and method (if added to the Gemfile)
+To enable reporting by controller#action add the following to at the end of the environment.rb file:
+
+  require 'rawk_log/patch_logger'
+
+This will patch Logger and/or ActiveSupport::BufferedLogger to append " (pid:#{$$})" to each line of the log file.
 
 ## Usage
 
