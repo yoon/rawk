@@ -1,11 +1,11 @@
 require 'test/unit'
 
-class MixedRails40Test < Test::Unit::TestCase
+class MixedTest < Test::Unit::TestCase
 
   def setup
     bin = File.join(File.dirname(__FILE__), '..', 'bin')
     examples = File.join(File.dirname(__FILE__), 'examples')
-    @output = `ruby #{bin}/rawk_log -f #{examples}/mixed_rails40.log`
+    @output = `ruby #{bin}/rawk_log -f #{examples}/mixed.log`
     @exit_status = $?.to_i
   end
 

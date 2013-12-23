@@ -7,4 +7,5 @@ require "rawk_log/version"
 #require "rawk_log/patch_logger"
 
 module RawkLog
+
 end

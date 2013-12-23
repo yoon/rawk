@@ -8,7 +8,7 @@ Completed in 25ms (View: 22, DB: 20) | 200 OK [http://0.0.0.0/items]
 Processing ItemsController#index (for 127.0.0.1 at 2009-01-08 03:06:39) [GET]
 Rendering template within layouts/items
 Rendering items/index
-Completed in 15ms (View: 12, DB: 10) | 200 OK [http://0.0.0.0/items]
+Completed in 16 (View: 12, DB: 10) | 200 OK [http://0.0.0.0/items]
 
 Processing ItemsController#index (for 127.0.0.1 at 2009-01-08 03:06:39) [GET]
 Rendering template within layouts/items

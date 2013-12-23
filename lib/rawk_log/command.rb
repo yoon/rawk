@@ -35,7 +35,6 @@ module RawkLog
     def initialize(args)
       @start_time = Time.now
       build_arg_hash(args)
-      @new_log_format = nil
     end
 
     def run
@@ -96,8 +95,20 @@ module RawkLog
       @worst_requests = []
       last_actions = Hash.new
       last_date = Date.civil
+      line_no = 1
       while @input.gets
-        if $_.index("Processing ")==0
+        line_no += 1
+        if $_.index("Processing by ")==0
+          action = $_.split[2]
+          pid = $_[/\(pid\:\d+\)/]
+          last_actions[pid]=action if pid
+        elsif $_.index("Started ")==0
+          date_string = $_[/(?:19|20)[0-9]{2}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])/]
+          date = date_string ? Date.parse(date_string) : last_date
+          last_date = date
+          datetime = $_[/(?:19|20)[0-9]{2}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01]) (?:[0-1][0-9]|2[0-3]):(?:[0-5][0-9]|60):(?:[0-5][0-9]|60)/].to_s
+          next
+        elsif $_.index("Processing ")==0
           action = $_.split[1]
           pid = $_[/\(pid\:\d+\)/]
           date_string = $_[/(?:19|20)[0-9]{2}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])/]
@@ -107,7 +118,7 @@ module RawkLog
           last_actions[pid]=action if pid
           next
         end
-        next unless $_.index("Completed in")==0
+        next unless $_.index("Completed ")==0 and $_ =~ /^Completed( \d+ \w+)? in/
         pid = key = nil
         #get the pid unless we are forcing url tracking
         pid = $_[/\(pid\:\d+\)/] if !@force_url_use
@@ -116,34 +127,22 @@ module RawkLog
         
         # Old: Completed in 0.45141 (2 reqs/sec) | Rendering: 0.25965 (57%) | DB: 0.06300 (13%) | 200 OK [http://localhost/jury/proposal/312]
         # New:  Completed in 100ms (View: 40, DB: 4) 
-        if @new_log_format.nil?
-          @new_log_format = ! ($_ =~ /Completed in \d+ms/)
-        end
         
-        if @new_log_format
-          if @db_time
-            time_string = $_[/DB: \d+\.\d+/]
-          elsif @render_time
-            time_string = $_[/(View|Rendering): \d+\.\d+/]
-          else
-            time_string = $_[/Completed in \d+\.\d+/]
-          end
-          time_string = time_string[/\d+\.\d+/] if time_string
-          time = time_string.to_f if time_string
+        if @db_time
+          time_string = $_[/DB: \d+(\.\d+)?[ms]*/]
+        elsif @render_time
+          time_string = $_[/(View|Rendering): \d+(\.\d+)?[ms]*/]
         else
-          if @db_time
-            time_string = $_[/DB: \d+/]
-          elsif @render_time
-            time_string = $_[/View: \d+/]
-          else
-            time_string = $_[/Completed in \d+ms/]
-          end
-          time_string = time_string[/\d+/] if time_string
-          time = time_string.to_i if time_string
+          time_string = $_[/Completed( \d+ \w+)? in \d+(\.\d+)?[ms]*/]
+          time_string = time_string[/ in .*/]
+        end
+        time_in_ms = time_string && (time_string =~ /ms/ || time_string !~ /\.\d/)
+        time_string = time_string[/\d+(\.\d+)?/] if time_string
+        if time_string
+          time = time_string.to_f
+          time /= 1000.0 if time_in_ms
         end
 
-        
-        
         #if pids are not specified then we use the url for hashing
         #the below regexp turns "[http://spongecell.com/calendar/view/bob]" to "/calendar/view"
         unless key
@@ -169,7 +168,12 @@ module RawkLog
           end
         end
 
-        if key and (@from.nil? or @from <= date) and (@to.nil? or @to >= date) # date criteria here
+        unless key
+          key = "Unknown"
+          puts "Found Completed without url #{pid ? '' : 'or pid '}at line #{line_no}"
+        end
+
+        if (@from.nil? or @from <= date) and (@to.nil? or @to >= date) # date criteria here
           @stat_hash.add(key,time)
           @total_stat.add(time)
           if @worst_requests.length<@worst_request_length || @worst_requests[@worst_request_length-1][0]<time
@@ -180,6 +184,7 @@ module RawkLog
         end
       end
     end
+
     def print_stats
       title = "Log Analysis of #{@db_time ? 'DB' : @render_time ? 'render' : 'total'} request times#{@from ? %Q( from #{@from.to_s}) : ""}#{@to ? %Q( through #{@to.to_s}) : ""}"
       puts title

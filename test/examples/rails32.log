@@ -1,0 +1,79 @@
+# From http://railscasts.com/episodes/56-the-logger-revised?view=asciicast
+
+Started GET "/" for 127.0.0.1 at 2012-04-23 20:59:50 +0100
+Processing by ArticlesController#index as HTML
+  Article Load (0.1ms)  SELECT "articles".* FROM "articles" 
+Articles Count: 3
+  Rendered articles/index.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 18ms (Views: 8.4ms | ActiveRecord: 0.7ms)
+[2012-04-23 20:59:50] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+# sample from initial app
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:48 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.7ms (Views: 1.1ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:48] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:51 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.8ms (Views: 1.2ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:51] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:54 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.4ms (Views: 1.0ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:54] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:48 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.7ms (Views: 1.1ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:48] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:51 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.8ms (Views: 1.2ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:51] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:54 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.4ms (Views: 1.0ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:54] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:48 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.7ms (Views: 1.1ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:48] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:51 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.8ms (Views: 1.2ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:51] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:54 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.4ms (Views: 1.0ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:54] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2013-12-24 02:46:48 +1100 (pid:13028)
+Processing by Rails::InfoController#properties as HTML (pid:13028)
+  Rendered inline template (0.5ms) (pid:13028)
+Completed 200 OK in 1.7ms (Views: 1.1ms | ActiveRecord: 0.0ms) (pid:13028)
+[2013-12-24 02:46:48] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true

@@ -1,10 +1,13 @@
-# From http://railscasts.com/episodes/56-the-logger-revised?view=asciicast
+Some unknown log format
 
-Started GET "/" for 127.0.0.1 at 2012-04-23 20:59:50 +0100
-Processing by ArticlesController#index as HTML
-  Article Load (0.1ms)  SELECT "articles".* FROM "articles" 
-Articles Count: 3
-  Rendered articles/index.html.erb within layouts/application (2.8ms)
-Completed 200 OK in 18ms (Views: 8.4ms | ActiveRecord: 0.7ms)
-[2012-04-23 20:59:50] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
 
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor dolor laoreet sapien malesuada porttitor. Donec quis eros convallis, dapibus urna vitae, aliquam ipsum. Etiam egestas porttitor magna non hendrerit. Proin condimentum purus a felis viverra ullamcorper. Nunc ac cursus odio, ut sollicitudin enim. Nam feugiat porta libero, non viverra est. In id felis venenatis enim sodales tincidunt ultrices ut eros. Donec sed diam sed diam consequat luctus. Donec diam eros, euismod sed nisi id, semper viverra lacus. Nam elementum ligula ut pretium commodo. Phasellus ullamcorper augue ligula, quis pulvinar tortor porta vel. In iaculis turpis at ligula pellentesque, vitae cursus felis viverra. Morbi vehicula dolor et augue placerat interdum. Maecenas pulvinar consequat cursus. Donec accumsan, massa venenatis tristique dignissim, ante diam tempor lacus, eu imperdiet neque orci quis lacus. Curabitur lectus mi, pellentesque sit amet pulvinar aliquet, tincidunt quis orci.
+
+Nullam pulvinar velit placerat enim ultricies posuere. Nullam pulvinar tortor lacus, ut sodales leo porttitor quis. Etiam quis dapibus risus, nec auctor ante. Vivamus rhoncus turpis eu turpis convallis molestie. Suspendisse blandit tellus fermentum laoreet consequat. Aenean volutpat tortor in risus ultrices, nec placerat velit sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus eros libero, congue at tortor non, placerat aliquet urna. Praesent et dui id ligula ultrices rutrum at at risus. Proin vehicula, massa nec facilisis vehicula, dolor nisi pellentesque augue, nec hendrerit sapien est nec risus. Proin tincidunt, mauris in dapibus fermentum, purus quam faucibus felis, ac ornare elit sapien vel libero.
+
+Pellentesque rhoncus vel tellus a sagittis. Aliquam porttitor, nisl sed tempus semper, nulla tortor scelerisque enim, sed placerat urna libero at eros. Etiam ut leo tristique, tristique lectus ac, adipiscing ipsum. Praesent pharetra ante ut est luctus, vel gravida urna bibendum. Proin eu justo arcu. Proin malesuada tellus ipsum, vitae porttitor urna tincidunt tempor. Nam rutrum ante augue.
+
+Fusce viverra elit id placerat congue. Pellentesque dapibus id leo eu egestas. Proin rutrum laoreet vehicula. Phasellus metus eros, feugiat eu massa in, congue varius felis. Proin justo purus, venenatis eget urna eget, condimentum convallis dui. Duis sed odio sit amet ipsum venenatis convallis vel eget lorem. Fusce eu tellus sem.
+
+Nulla euismod lorem eget placerat placerat. Morbi ut nisl eu nunc sagittis rutrum id at tellus. Praesent blandit elit vitae varius volutpat. Duis convallis nec velit et tristique. In hac habitasse platea dictumst. Mauris consequat, lacus in ullamcorper vulputate, libero velit rutrum diam, sed congue lacus dui at nisi. Curabitur vitae varius leo. Aliquam nisl arcu, dapibus et consectetur non, viverra non erat. Mauris lacinia hendrerit nisi a lobortis. Cras sagittis orci eros, a commodo nibh dapibus et. Duis ut neque vitae lacus pulvinar posuere eget in massa. Fusce tellus nulla, eleifend at tempus volutpat, tincidunt at mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eu massa et tortor vehicula lacinia a a mi. Aliquam feugiat tellus vitae elit aliquet, nec sollicitudin dolor viverra. 

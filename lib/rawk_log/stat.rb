@@ -17,7 +17,6 @@ module RawkLog
     end
 
     def add(value)
-      @new_log_format = !value.is_a?(Float)
       value=1.0*value
       @count+=1
       @min = value unless @min
@@ -73,12 +72,7 @@ module RawkLog
 
     def to_s(label_size = DEFAULT_LABEL_SIZE)
       if count > 0
-        if @new_log_format
-          sprintf("%*s %6d %9.2f %7d %7d %7d %7d %7d",-label_size, key,count,(sum.to_f/1000),max,median,average,min,standard_deviation)
-        else
-          sprintf("%*s %6d %9.2f %7d %7d %7d %7d %7d",-label_size, key,count,sum,max*1000.0,median*1000.0,average*1000.0,min*1000.0,standard_deviation*1000.0)
-          #sprintf("%*s %6d %9.2f %7.2f %7.2f %7.2f %7.2f %7.2f",-label_size,key,count,sum,max,median,average,min,standard_deviation)
-        end
+        sprintf("%*s %6d %9.2f %7d %7d %7d %7d %7d",-label_size, key,count,sum,max*1000.0,median*1000.0,average*1000.0,min*1000.0,standard_deviation*1000.0)
       else
           sprintf("%*s %6d",-label_size,key,0)
       end
