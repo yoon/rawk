@@ -24,7 +24,7 @@ Or install it yourself as:
 
 To enable reporting by controller#action add the following to at the end of the environment.rb file:
 
-  require 'rawk_log/patch_logger'
+    require 'rawk_log/patch_logger'
 
 This will patch Logger and/or ActiveSupport::BufferedLogger to append " (pid:#{$$})" to each line of the log file.
 
