@@ -28,6 +28,8 @@ To enable reporting by controller#action add the following to at the end of the 
 
 This will patch Logger and/or ActiveSupport::BufferedLogger to append " (pid:#{$$})" to each line of the log file.
 
+This patch is required where the url is not listed on the completed line (eg rails 3.2).
+
 ## Usage
 
 rawk_log usage:
