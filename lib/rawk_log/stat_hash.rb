@@ -11,16 +11,16 @@ module RawkLog
       @stats.empty?
     end
 
-    def add(key,time)
+    def add(key, time)
       stat = @stats[key] || (@stats[key] = RawkLog::Stat.new(key))
       stat.add(time)
     end
 
-    def print(args={:sort_by=>'key',:ascending=>true,:limit=>nil})
+    def print(args={:sort_by => 'key', :ascending => true, :limit => nil})
       values = @stats.values
       return Stat::DEFAULT_LABEL_SIZE if values.empty?
       order = (args[:ascending] || args[:ascending].nil?) ? 1 : -1
-      values.sort! {|a,b| 
+      values.sort! { |a, b|
         as = a.send(args[:sort_by])
         bs = b.send(args[:sort_by])
         (as && bs) ? order*(as<=>bs) : 0
@@ -28,9 +28,9 @@ module RawkLog
       #values.sort! {|a,b| a.key<=>b.key}
       limit = args[:limit]
       if limit
-        values = values[0,limit]
+        values = values[0, limit]
       end
-      @label_size = values.collect{|v| v.key.size }.max
+      @label_size = values.collect { |v| v.key.size }.max
       @label_size = Stat::DEFAULT_LABEL_SIZE if @label_size < Stat::DEFAULT_LABEL_SIZE
       puts values[0].header(@label_size)
       for stat in values

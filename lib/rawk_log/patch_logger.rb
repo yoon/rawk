@@ -19,7 +19,7 @@ end
 if defined?(ActiveSupport::BufferedLogger)
 
   module ActiveSupport
-    
+
     class BufferedLogger
 
       def add_with_pid(severity, message = nil, progname = nil, &block)
@@ -29,7 +29,7 @@ if defined?(ActiveSupport::BufferedLogger)
           # Ensures that the original message is not mutated.
           message = "#{message}\n" unless message[-1] == ?\n
           if message !~ /^\n*$/ && message !~ /\(pid\:/
-            message.gsub(/\n/," (pid:#{$$})\n")
+            message.gsub(/\n/, " (pid:#{$$})\n")
           else
             message
           end

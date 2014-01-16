@@ -67,14 +67,14 @@ module RawkLog
 
     def standard_deviation
       return 0 if @count<=1
-      Math.sqrt((@sum_squares - (@sum*@sum/@count))/ (@count) )
+      Math.sqrt((@sum_squares - (@sum*@sum/@count))/ (@count))
     end
 
     def to_s(label_size = DEFAULT_LABEL_SIZE)
       if count > 0
-        sprintf("%*s %6d %9.2f %7d %7d %7d %7d %7d",-label_size, key,count,sum,max*1000.0,median*1000.0,average*1000.0,min*1000.0,standard_deviation*1000.0)
+        sprintf("%*s %6d %9.2f %7d %7d %7d %7d %7d", -label_size, key, count, sum, max*1000.0, median*1000.0, average*1000.0, min*1000.0, standard_deviation*1000.0)
       else
-          sprintf("%*s %6d",-label_size,key,0)
+        sprintf("%*s %6d", -label_size, key, 0)
       end
     end
 
@@ -84,11 +84,11 @@ module RawkLog
       stat.add(6)
       stat.add(8)
       stat.add(9)
-      results = [ 7==stat.median ? "median Success" : "median Failure" ]
+      results = [7==stat.median ? "median Success" : "median Failure"]
       results <<= (7==stat.average ? "average Success" : "average Failure")
       results <<= (158==(stat.standard_deviation*100).round ? "std Success" : "std Failure")
       puts results.join("\n")
-      exit (results.select{|m| m =~ /Failure/}.size)
+      exit (results.select { |m| m =~ /Failure/ }.size)
     end
 
   end
