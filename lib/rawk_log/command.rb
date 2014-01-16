@@ -18,7 +18,8 @@ module RawkLog
         "  -h  Display this help.\n\n"+
         "  -r  Use Render times as data points. These times are found after 'Rendering:' in the log file. This overrides the default behavior of using the total request time.\n\n"+
         "  -s <count> Display <count> results in each group of data.\n\n"+
-        "  -t  Test\n\n"+
+        "  -t  Self Test\n\n"+
+        "  -v  verbose mode (outputs a dot each 1000 lines).\n\n"+
         "  -u  Group requests by url instead of the controller and action used. This is the default behavior if there is are no process ids in the log file.\n\n"+
         "  -w <count> Display the top <count> worst requests.\n\n"+
         "  -x <date> Date (inclusive) to start parsing in 'yyyy-mm-dd' format.\n\n"+
@@ -30,7 +31,7 @@ module RawkLog
         "This software is Beerware, if you like it, buy yourself a beer or something nicer ;)\n"+
         "\n"+
         "Example usage:\n"+
-        "    rawk_log log/production.log\n"
+        "    rawk_log -f log/production.log\n"
 
     def initialize(args)
       @start_time = Time.now
@@ -44,7 +45,9 @@ module RawkLog
         Stat.test
       else
         init_args
+        puts "Building stats" if @debug
         build_stats
+        puts "\nPrinting stats" if @debug
         print_stats
       end
     end
@@ -72,6 +75,7 @@ module RawkLog
       @input = $stdin
       keys = @arg_hash.keys
       @force_url_use = keys.include?("u")
+      @verbose = keys.include?("v")
       @db_time = keys.include?("d")
       @render_time = keys.include?("r")
       @worst_request_length=(@arg_hash["w"].to_i) if @arg_hash["w"]
@@ -96,10 +100,11 @@ module RawkLog
       last_actions = Hash.new
       last_date = Date.civil
       line_no = 1
+      $stdout.flush
       while @input.gets
         line_no += 1
-        next unless $_ =~ /^[PSC][ro]/
-        print "."
+        $stdout.write "." if @verbose && (line_no % 1000) == 0
+        next unless $_ =~ /^[PSC]/
         if $_.index("Processing by ")==0
           action = $_.split[2]
           pid = $_[/\(pid\:\d+\)/]
@@ -185,6 +190,7 @@ module RawkLog
           end
         end
       end
+      $stdout.flush
     end
 
     def print_stats

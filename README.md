@@ -57,7 +57,7 @@ rawk_log usage:
 	-y <date> Date (inclusive) to stop parsing in 'yyyy-mm-dd' format.
 
 Example usage:
-    rawk_log log/production.log
+    rawk_log -f log/production.log
 
 ## Contributing
 
