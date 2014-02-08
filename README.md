@@ -6,6 +6,8 @@ This tool gives statistics for Ruby on Rails log files. The times for each reque
 
 [![Travis CI tests](https://travis-ci.org/ianheggie/rawk_log.png)](https://travis-ci.org/ianheggie/rawk_log)
 
+Supports Rails versions 2.3, 3.0, 3.1, 3.2 and 4.0
+
 ## Installation
 
 Add this line to your application's Gemfile:
