@@ -2,8 +2,11 @@ if defined?(Logger)
 
   class Logger
     def format_message(severity, timestamp, progname, msg)
-      if msg !~ /^\n*$/ && msg !~ /\(pid\:/
-        "#{msg} (pid:#{$$})\n"
+      # If a newline is necessary then create a new message ending with a newline.
+      # Ensures that the original message is not mutated.
+      msg = "#{msg}\n" unless msg[-1,1] == "\n"
+      if msg !~ /\(pid\:/
+        msg.gsub(/(\S.)$/, "\\1 (pid:#{$$})")
       else
         msg
       end
@@ -27,16 +30,17 @@ if defined?(ActiveSupport::BufferedLogger)
           message = (message || (block && block.call) || progname).to_s
           # If a newline is necessary then create a new message ending with a newline.
           # Ensures that the original message is not mutated.
-          message = "#{message}\n" unless message[-1] == ?\n
-          if message !~ /^\n*$/ && message !~ /\(pid\:/
-            message.gsub(/\n/, " (pid:#{$$})\n")
+          message = "#{message}\n" unless message[-1,1] == "\n"
+          if message !~ /\(pid\:/
+            message.gsub(/(\S.)$/, "\\1 (pid:#{$$})")
           else
             message
           end
         end
       end
 
-      alias_method_chain :add, :pid
+      alias_method :add_without_pid, :add
+      alias_method :add, :add_with_pid
 
     end
   end
