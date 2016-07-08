@@ -4,7 +4,7 @@ RawkLog - RAWK - Rail's Analyzer With Klass updated and packaged a Gem
 
 This tool gives statistics for Ruby on Rails log files. The times for each request are grouped and totals are displayed. If process ids are present in the log files then requests are sorted by ActionController actions otherwise requests are grouped by url. By default total request times are used for comparison but database time or render time can be used by specifying the correct flag. The log file is read from standard input unless the -f flag is specified.
 
-[![Travis CI tests](https://travis-ci.org/ianheggie/rawk_log.png)](https://travis-ci.org/ianheggie/rawk_log)
+[![Travis CI tests for master](https://travis-ci.org/ianheggie/rawk_log.png?branch=master)](https://travis-ci.org/ianheggie/rawk_log)
 
 Supports Rails versions 2.3, 3.0, 3.1, 3.2 and 4.0
 
@@ -67,7 +67,7 @@ Example usage:
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+5. Create new Pull Request (Code with BDD tests are favoured)
 
 ## License
 
