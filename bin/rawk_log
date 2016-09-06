@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+##Rail's Analyzer With Klass
+#run the following to view help:
+#ruby rawk.rb -?
+
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require 'rawk_log/command'
+
+cmd = RawkLog::Command.new($*)
+cmd.run
+
